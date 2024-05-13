@@ -122,7 +122,7 @@ func keyScopeFromPubKey(pubKey *hdkeychain.ExtendedKey,
 func (w *Wallet) isPubKeyForNet(pubKey *hdkeychain.ExtendedKey) bool {
 	version := waddrmgr.HDVersion(binary.BigEndian.Uint32(pubKey.Version()))
 	switch w.chainParams.Net {
-	case wire.MainNet:
+	case wire.MainNet, wire.Chemcrypt:
 		return version == waddrmgr.HDVersionMainNetBIP0044 ||
 			version == waddrmgr.HDVersionMainNetBIP0049 ||
 			version == waddrmgr.HDVersionMainNetBIP0084
@@ -136,7 +136,7 @@ func (w *Wallet) isPubKeyForNet(pubKey *hdkeychain.ExtendedKey) bool {
 	// doesn't have defined versions for some of our key scopes, and the
 	// mainnet versions are usually used as the default regardless of the
 	// network/key scope.
-	case wire.SimNet:
+	case wire.SimNet, wire.ChemcryptSimNet:
 		return version == waddrmgr.HDVersionSimNetBIP0044 ||
 			version == waddrmgr.HDVersionMainNetBIP0049 ||
 			version == waddrmgr.HDVersionMainNetBIP0084

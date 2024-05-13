@@ -55,6 +55,8 @@ type config struct {
 	TestNet3        bool                    `long:"testnet" description:"Use the test Bitcoin network (version 3) (default mainnet)"`
 	SimNet          bool                    `long:"simnet" description:"Use the simulation test network (default mainnet)"`
 	SigNet          bool                    `long:"signet" description:"Use the signet test network (default mainnet)"`
+	Chemcrypt       bool                    `long:"chemcrypt" description:"Use the Chemcrypt network"`
+	ChemcryptSimNet bool                    `long:"chemcryptsimnet" description:"Use the Chemcrypt simulation test network"`
 	SigNetChallenge string                  `long:"signetchallenge" description:"Connect to a custom signet network defined by this challenge instead of using the global default signet test network -- Can be specified multiple times"`
 	SigNetSeedNode  []string                `long:"signetseednode" description:"Specify a seed node for the signet network instead of using the global default signet network seed nodes"`
 	NoInitialLoad   bool                    `long:"noinitialload" description:"Defer wallet creation/opening on startup and enable loading wallets over RPC"`
@@ -409,8 +411,16 @@ func loadConfig() (*config, []string, error) {
 		)
 		activeNet.Params = &chainParams
 	}
+	if cfg.Chemcrypt {
+		activeNet = &netparams.ChemcryptParams
+		numNets++
+	}
+	if cfg.ChemcryptSimNet {
+		activeNet = &netparams.ChemcryptSimNetParams
+		numNets++
+	}
 	if numNets > 1 {
-		str := "%s: The testnet, signet and simnet params can't be " +
+		str := "%s: The testnet, signet, simnet, chemcrypt and chemcryptsimnet params can't be " +
 			"used together -- choose one"
 		err := fmt.Errorf(str, "loadConfig")
 		fmt.Fprintln(os.Stderr, err)
@@ -451,7 +461,7 @@ func loadConfig() (*config, []string, error) {
 
 	// Exit if you try to use a simulation wallet on anything other than
 	// simnet or testnet3.
-	if !cfg.SimNet && cfg.CreateTemp {
+	if !(cfg.SimNet || cfg.ChemcryptSimNet) && cfg.CreateTemp {
 		fmt.Fprintln(os.Stderr, "Tried to create a temporary simulation "+
 			"wallet for network other than simnet!")
 		os.Exit(0)

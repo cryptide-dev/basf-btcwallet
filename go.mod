@@ -1,5 +1,7 @@
 module github.com/btcsuite/btcwallet
 
+go 1.18
+
 require (
 	github.com/btcsuite/btcd v0.24.1-0.20240116200649-17fdc5219b36
 	github.com/btcsuite/btcd/btcec/v2 v2.2.2
@@ -51,4 +53,17 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-go 1.18
+replace (
+	github.com/btcsuite/btcd => ../basf-btcd
+	github.com/btcsuite/btcd/btcec/v2 => ../basf-btcd/btcec
+	github.com/btcsuite/btcd/btcutil/psbt => ../basf-btcd/btcutil/psbt
+	github.com/btcsuite/btcd/chaincfg/chainhash => ../basf-btcd/chaincfg/chainhash
+	github.com/btcsuite/btcutil => ../basf-btcd/btcutil
+
+	github.com/btcsuite/btcwallet => ../basf-btcwallet
+	github.com/btcsuite/btcwallet/wallet/txauthor => ../basf-btcwallet/wallet/txauthor
+	github.com/btcsuite/btcwallet/wallet/txrules => ../basf-btcwallet/wallet/txrules
+	github.com/btcsuite/btcwallet/wallet/txsizes => ../basf-btcwallet/wallet/txsizes
+	github.com/btcsuite/btcwallet/walletdb => ../basf-btcwallet/walletdb
+	github.com/btcsuite/btcwallet/wtxmgr => ../basf-btcwallet/wtxmgr
+)

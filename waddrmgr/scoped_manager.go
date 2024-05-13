@@ -2506,7 +2506,7 @@ func (s *ScopedKeyManager) cloneKeyWithVersion(key *hdkeychain.ExtendedKey) (
 	var version HDVersion
 	net := s.rootManager.ChainParams().Net
 	switch net {
-	case wire.MainNet:
+	case wire.MainNet, wire.Chemcrypt:
 		switch s.scope {
 		case KeyScopeBIP0044, KeyScopeBIP0086:
 			version = HDVersionMainNetBIP0044
@@ -2532,7 +2532,7 @@ func (s *ScopedKeyManager) cloneKeyWithVersion(key *hdkeychain.ExtendedKey) (
 			return nil, fmt.Errorf("unsupported scope %v", s.scope)
 		}
 
-	case wire.SimNet:
+	case wire.SimNet, wire.ChemcryptSimNet:
 		switch s.scope {
 		case KeyScopeBIP0044, KeyScopeBIP0086:
 			version = HDVersionSimNetBIP0044

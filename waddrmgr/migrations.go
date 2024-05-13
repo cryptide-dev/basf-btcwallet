@@ -326,6 +326,14 @@ func populateBirthdayBlock(ns walletdb.ReadWriteBucket) error {
 		genesisTimestamp =
 			chaincfg.SigNetParams.GenesisBlock.Header.Timestamp
 
+	case *chaincfg.ChemcryptParams.GenesisHash:
+		genesisTimestamp =
+			chaincfg.ChemcryptParams.GenesisBlock.Header.Timestamp
+
+	case *chaincfg.ChemcryptSimNetParams.GenesisHash:
+		genesisTimestamp =
+			chaincfg.ChemcryptSimNetParams.GenesisBlock.Header.Timestamp
+
 	default:
 		return fmt.Errorf("unknown genesis hash %v", genesisHash)
 	}

@@ -49,6 +49,20 @@ var SigNetParams = Params{
 	RPCServerPort: "38332",
 }
 
+// ChemcryptParams contains parameters specific to the Chemcrypt network
+var ChemcryptParams = Params{
+	Params:        &chaincfg.ChemcryptParams,
+	RPCClientPort: "48334",
+	RPCServerPort: "48332",
+}
+
+// ChemcryptSimNetParams contains parameters specific to the Chemcrypt simulation test network
+var ChemcryptSimNetParams = Params{
+	Params:        &chaincfg.ChemcryptSimNetParams,
+	RPCClientPort: "28556",
+	RPCServerPort: "28554",
+}
+
 // SigNetWire is a helper function that either returns the given chain
 // parameter's net value if the parameter represents a signet network or 0 if
 // it's not. This is necessary because there can be custom signet networks that

@@ -43,6 +43,8 @@ func errContext(err error, context string) error {
 var opts = struct {
 	TestNet3              bool                `long:"testnet" description:"Use the test bitcoin network (version 3)"`
 	SimNet                bool                `long:"simnet" description:"Use the simulation bitcoin network"`
+	Chemcrypt             bool                `long:"chemcrypt" description:"Use the Chemcrypt network"`
+	ChemcryptSimNet       bool                `long:"chemcryptsimnet" description:"Use the Chemcrypt simulation test network"`
 	RPCConnect            string              `short:"c" long:"connect" description:"Hostname[:port] of wallet RPC server"`
 	RPCUsername           string              `short:"u" long:"rpcuser" description:"Wallet RPC username"`
 	RPCCertificateFile    string              `long:"cafile" description:"Wallet RPC TLS certificate"`
@@ -53,6 +55,8 @@ var opts = struct {
 }{
 	TestNet3:              false,
 	SimNet:                false,
+	Chemcrypt:             false,
+	ChemcryptSimNet:       false,
 	RPCConnect:            "localhost",
 	RPCUsername:           "",
 	RPCCertificateFile:    filepath.Join(walletDataDirectory, "rpc.cert"),
@@ -79,14 +83,27 @@ func init() {
 		os.Exit(1)
 	}
 
-	if opts.TestNet3 && opts.SimNet {
-		fatalf("Multiple bitcoin networks may not be used simultaneously")
-	}
+	numNets := 0
 	var activeNet = &netparams.MainNetParams
 	if opts.TestNet3 {
+		numNets++
 		activeNet = &netparams.TestNet3Params
-	} else if opts.SimNet {
+	}
+	if opts.SimNet {
+		numNets++
 		activeNet = &netparams.SimNetParams
+	}
+	if opts.Chemcrypt {
+		numNets++
+		activeNet = &netparams.ChemcryptParams
+	}
+	if opts.ChemcryptSimNet {
+		numNets++
+		activeNet = &netparams.ChemcryptSimNetParams
+	}
+
+	if numNets > 1 {
+		fatalf("Multiple bitcoin networks may not be used simultaneously")
 	}
 
 	if opts.RPCConnect == "" {

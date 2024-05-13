@@ -575,6 +575,7 @@ func (w *Wallet) isDevEnv() bool {
 	switch uint32(w.ChainParams().Net) {
 	case uint32(chaincfg.RegressionNetParams.Net):
 	case uint32(chaincfg.SimNetParams.Net):
+	case uint32(chaincfg.ChemcryptSimNetParams.Net):
 	default:
 		return false
 	}

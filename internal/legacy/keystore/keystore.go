@@ -494,6 +494,10 @@ func (net *netParams) ReadFrom(r io.Reader) (int64, error) {
 		*net = (netParams)(chaincfg.TestNet3Params)
 	case wire.SimNet:
 		*net = (netParams)(chaincfg.SimNetParams)
+	case wire.Chemcrypt:
+		*net = (netParams)(chaincfg.ChemcryptParams)
+	case wire.ChemcryptSimNet:
+		*net = (netParams)(chaincfg.ChemcryptSimNetParams)
 
 	// The legacy key store won't be compatible with custom signets, only
 	// the main public one.
