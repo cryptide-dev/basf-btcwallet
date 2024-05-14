@@ -654,7 +654,7 @@ func (d *PrunedBlockDispatcher) handleResp(req, resp wire.Message,
 	copy(copyblockChans, blockChans)
 
 	err := blockchain.CheckBlockSanity(
-		btcutil.NewBlock(block), d.cfg.ChainParams.PowLimit,
+		btcutil.NewBlock(block), d.cfg.ChainParams,
 		d.timeSource,
 	)
 	if err != nil {
